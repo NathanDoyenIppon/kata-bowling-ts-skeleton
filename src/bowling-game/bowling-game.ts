@@ -13,24 +13,38 @@ export class BowlingGame {
     }
 
     frame(numberOfPins: string): void {
-        if (numberOfPins === 'X') {
-            this.totalScore += 10
+        const [roll1, roll2] = numberOfPins.replace(/-/g, '0')
+        if (this.isStrike(numberOfPins)) {
+            this.totalScore += 10 * this.coefRow1
+            this.setStrike();
             return
         }
-        if (numberOfPins.includes('/')) {
-            this.totalScore += 10
-            this.coefRow1 = 2
+        if (this.isSpare(numberOfPins)) {
+            this.totalScore += Number(roll1) * this.coefRow1 + (10 - Number(roll1)) * this.coefRow2
+            this.setSpare();
             return
         }
-        if (numberOfPins.includes('-')) {
-            this.totalScore +=
-                Number(numberOfPins.split('-')[0]) * this.coefRow1 +
-                Number(numberOfPins.split('-')[1])
+            this.totalScore += Number(roll1) * this.coefRow1 + Number(roll2) * this.coefRow2
             this.initializeSpareAndStrike()
             return
-        }
-        let [roll1, roll2] = numberOfPins
-        this.totalScore += Number(roll1) * this.coefRow1 + Number(roll2)
+    }
+
+    private setSpare() {
+        this.coefRow1 = 2
+        this.coefRow2 = 1
+    }
+
+    private setStrike() {
+        this.coefRow1 = 2
+        this.coefRow2 = 2
+    }
+
+    private isSpare(numberOfPins: string) {
+        return numberOfPins.includes('/');
+    }
+
+    private isStrike(numberOfPins: string) {
+        return numberOfPins === 'X';
     }
 
     score(): number {

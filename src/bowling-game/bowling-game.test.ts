@@ -7,7 +7,7 @@ describe('bowling line', () => {
     it('score should return 0 at the beginning of the line', () => {
         const line = new BowlingGame()
         for (let frame = 1; frame <= 10; frame++) {
-            line.frame('-')
+            line.frame('--')
         }
         expect(line.score()).toEqual(0)
     })
@@ -16,7 +16,7 @@ describe('bowling line', () => {
 
         line.frame('21')
         for (let frame = 2; frame <= 10; frame++) {
-            line.frame('-')
+            line.frame('--')
         }
         expect(line.score()).toEqual(3)
     })
@@ -25,7 +25,7 @@ describe('bowling line', () => {
 
         line.frame('X')
         for (let frame = 2; frame <= 10; frame++) {
-            line.frame('-')
+            line.frame('--')
         }
         expect(line.score()).toEqual(10)
     })
@@ -34,7 +34,7 @@ describe('bowling line', () => {
 
         line.frame('7/')
         for (let frame = 2; frame <= 10; frame++) {
-            line.frame('-')
+            line.frame('--')
         }
         expect(line.score()).toEqual(10)
     })
@@ -43,7 +43,7 @@ describe('bowling line', () => {
 
         line.frame('5-')
         for (let frame = 2; frame <= 10; frame++) {
-            line.frame('-')
+            line.frame('--')
         }
         expect(line.score()).toEqual(5)
     })
@@ -53,14 +53,14 @@ describe('bowling line', () => {
         line.frame('5-')
         line.frame('--')
         for (let frame = 3; frame <= 10; frame++) {
-            line.frame('-')
+            line.frame('--')
         }
         expect(line.score()).toEqual(5)
     })
     it('should double score if spare before', () => {
         const line = new BowlingGame()
         // score = 10
-        line.frame('/')
+        line.frame('4/')
 
         // score = 10
         line.frame('5-')
@@ -70,5 +70,65 @@ describe('bowling line', () => {
             line.frame('5-')
         }
         expect(line.score()).toEqual(60)
+    })
+
+    it('should double score if strike before', () => {
+        const line = new BowlingGame()
+        // score = 10
+        line.frame('X')
+
+        // score = 18
+        line.frame('36')
+
+        // tot prochains lancers: 40
+        for (let frame = 3; frame <= 10; frame++) {
+            line.frame('5-')
+        }
+        expect(line.score()).toEqual(68)
+    })
+
+    it('should double score if spare then strike', () => {
+        const line = new BowlingGame()
+        // score = 10
+        line.frame('3/')
+
+        // score = 20
+        line.frame('X')
+
+        // tot prochains lancers: 45
+        for (let frame = 3; frame <= 10; frame++) {
+            line.frame('5-')
+        }
+        expect(line.score()).toEqual(75)
+    })
+
+    it('should double score if strike then spare', () => {
+        const line = new BowlingGame()
+        // score = 10
+        line.frame('X')
+
+        // score = 20
+        line.frame('3/')
+
+        // tot prochains lancers: 45
+        for (let frame = 3; frame <= 10; frame++) {
+            line.frame('5-')
+        }
+        expect(line.score()).toEqual(75)
+    })
+
+    it('should double score if spare then spare', () => {
+        const line = new BowlingGame()
+        // score = 10
+        line.frame('4/')
+
+        // score = 13
+        line.frame('3/')
+
+        // tot prochains lancers: 45
+        for (let frame = 3; frame <= 10; frame++) {
+            line.frame('5-')
+        }
+        expect(line.score()).toEqual(68)
     })
 })
