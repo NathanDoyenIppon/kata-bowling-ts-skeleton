@@ -1,5 +1,8 @@
 export class LeapYear {
     isLeapYear(year: number): boolean {
-        throw new Error('Not implemented yet')
+        if (year % 400 === 0) {
+            return true
+        }
+        return false
     }
 }
