@@ -1,10 +1,25 @@
 export class BowlingGame {
-    roll(numberOfPins: number): void {
-        // not implemented yet
+    totalScore: number
+    constructor() {
+        this.totalScore = 0
+    }
+    frame(numberOfPins: string | number): void {
+        if (typeof numberOfPins === "string"){
+            if (numberOfPins === 'X'){
+                this.totalScore += 10
+            }
+            if (numberOfPins.includes('/')){
+                this.totalScore += 10
+            }
+            if (numberOfPins.includes('-')){
+                this.totalScore += Number(numberOfPins.split('-')[0])
+            }
+        } else {
+            this.totalScore += numberOfPins
+        }
     }
 
     score(): number {
-        // not implemented yet
-        return -1
+        return this.totalScore
     }
 }
